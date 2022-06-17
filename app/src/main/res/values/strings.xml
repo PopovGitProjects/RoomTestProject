@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">RoomTestProject</string>
+    <string name="float_button">Float button</string>
+    <string name="back">Back</string>
+    <string name="delete">Delete</string>
+    <string name="add_note">Add note</string>
+    <string name="title">Title</string>
+    <string name="description">Description</string>
+    <string name="add_note_btn">Add note</string>
 </resources>
