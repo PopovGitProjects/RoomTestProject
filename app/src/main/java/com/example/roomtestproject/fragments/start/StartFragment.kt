@@ -7,8 +7,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.roomtestproject.R
+import com.example.roomtestproject.databinding.FragmentStartBinding
 
 class StartFragment : Fragment() {
+
+    private var _binding: FragmentStartBinding? = null
+    private val binding get() = _binding!!
 
     companion object {
         fun newInstance() = StartFragment()
@@ -19,14 +23,24 @@ class StartFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_start, container, false)
+    ): View {
+        _binding = FragmentStartBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(StartViewModel::class.java)
-        // TODO: Use the ViewModel
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        init()
+    }
+
+    private fun init(){
+        viewModel = ViewModelProvider(this)[StartViewModel::class.java]
+        viewModel.initDB()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
     }
 
 }
