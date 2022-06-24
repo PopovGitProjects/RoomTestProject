@@ -1,18 +1,25 @@
 package com.example.roomtestproject.fragments.start
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.Navigation
+import androidx.navigation.findNavController
+import androidx.recyclerview.widget.RecyclerView
 import com.example.roomtestproject.R
+import com.example.roomtestproject.adapter.NoteAdapter
+import com.example.roomtestproject.constants.Constants
 import com.example.roomtestproject.databinding.FragmentStartBinding
 
 class StartFragment : Fragment() {
 
     private var _binding: FragmentStartBinding? = null
     private val binding get() = _binding!!
+    private var recyclerView: RecyclerView? = null
+    private var adapter: NoteAdapter? = null
 
     companion object {
         fun newInstance() = StartFragment()
@@ -36,6 +43,13 @@ class StartFragment : Fragment() {
     private fun init(){
         viewModel = ViewModelProvider(this)[StartViewModel::class.java]
         viewModel.initDB()
+        recyclerView = binding.rvNotes
+        adapter = NoteAdapter()
+        recyclerView!!.adapter = adapter
+        viewModel.getAllNotes().observe(viewLifecycleOwner) { listNotes ->
+            listNotes.asReversed()
+            adapter!!.setList(listNotes)
+        }
     }
 
     override fun onDestroy() {
